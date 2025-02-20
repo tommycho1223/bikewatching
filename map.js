@@ -20,7 +20,7 @@ map.on('load', () => {
     // Add Cambridge bike lane data source
     map.addSource('cambridge_route', {
         type: 'geojson',
-        data: 'https://data.cambridgema.gov/resource/tdj5-5ph6.geojson' // Example Cambridge bike lane dataset
+        data: 'https://raw.githubusercontent.com/cambridgegis/cambridgegis_data/main/Recreation/Bike_Facilities/RECREATION_BikeFacilities.geojson'
     });
 
     // Add Boston bike lanes layer
