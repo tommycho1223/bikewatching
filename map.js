@@ -11,6 +11,13 @@ const map = new mapboxgl.Map({
     maxZoom: 18 // Maximum allowed zoom
 });
 
+// Define common styling for bike lanes
+const bikeLaneStyle = {
+    'line-color': '#32D400', // Brighter green
+    'line-width': 5, // Thicker lines
+    'line-opacity': 0.6 // Slightly less transparent
+};
+
 map.on('load', () => {
     map.addSource('boston_route', {
         type: 'geojson',
@@ -28,11 +35,7 @@ map.on('load', () => {
         id: 'bike-lanes-boston',
         type: 'line',
         source: 'boston_route',
-        paint: {
-            'line-color': '#32D400',  // A bright green using hex code
-            'line-width': 5,          // Thicker lines
-            'line-opacity': 0.6       // Slightly less transparent
-          }
+        paint: bikeLaneStyle
     });
     
     // Add Cambridge bike lanes layer
@@ -40,10 +43,16 @@ map.on('load', () => {
         id: 'bike-lanes-cambridge',
         type: 'line',
         source: 'cambridge_route',
-        paint: {
-            'line-color': '#32D400',  // A bright green using hex code
-            'line-width': 5,          // Thicker lines
-            'line-opacity': 0.6       // Slightly less transparent
-          }
+        paint: bikeLaneStyle
+    });
+
+    // Fetch and parse Bluebike station data using D3.js
+    const jsonUrl = 'https://dsc106.com/labs/lab07/data/bluebikes-stations.json';
+    d3.json(jsonUrl).then(jsonData => {
+        console.log('Loaded JSON Data:', jsonData); // Log to verify structure
+        const stations = jsonData.data.stations;
+        console.log('Stations Array:', stations);
+    }).catch(error => {
+        console.error('Error loading JSON:', error); // Handle errors
     });
 });
