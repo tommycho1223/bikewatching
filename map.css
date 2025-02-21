@@ -22,3 +22,7 @@ html, body {
     height: 100%;
     pointer-events: none;
 }
+
+circle {
+    pointer-events: auto;  /* Allows tooltips to be shown */
+}
