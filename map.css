@@ -26,3 +26,18 @@ html, body {
 circle {
     pointer-events: auto;  /* Allows tooltips to be shown */
 }
+
+header {
+    display: flex;
+    align-items: baseline;
+    gap: 1em;
+}
+
+#any-time {
+    color: gray;
+    font-style: italic;
+}
+
+#selected-time {
+    display: block;
+}
