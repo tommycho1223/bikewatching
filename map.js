@@ -155,17 +155,16 @@ map.on('load', () => {
 
     // Function to update time display based on slider value
     function updateTimeDisplay() {
-        timeFilter = Number(timeSlider.value); // Get slider value
-
+        timeFilter = Number(timeSlider.value);
+    
         if (timeFilter === -1) {
-            selectedTime.textContent = ""; // Clear time display
-            anyTimeLabel.style.display = "block"; // Show "(any time)"
+            selectedTime.textContent = ""; 
+            anyTimeLabel.style.display = "block"; 
         } else {
-            selectedTime.textContent = formatTime(timeFilter); // Display formatted time
-            anyTimeLabel.style.display = "none"; // Hide "(any time)"
+            selectedTime.textContent = formatTime(timeFilter);
+            anyTimeLabel.style.display = "none";
         }
-
-        // Call updateScatterPlot to reflect the changes on the map
+    
         updateScatterPlot(timeFilter);
     }
 
@@ -195,18 +194,28 @@ function filterTripsByTime(trips, timeFilter) {
 }
 
 function updateScatterPlot(timeFilter) {
-    // Get only the trips that match the selected time filter
+    // Ensure trafficData and stationData are accessible
+    if (!trafficData || !stationData) {
+        console.error("Missing trafficData or stationData.");
+        return;
+    }
+
+    // Filter trips based on selected time
     const filteredTrips = filterTripsByTime(trafficData, timeFilter);
 
     // Recompute station traffic based on the filtered trips
     const filteredStations = computeStationTraffic(stationData.data.stations, filteredTrips);
 
-    // Dynamically adjust the radius scale
-    timeFilter === -1 ? radiusScale.range([0, 25]) : radiusScale.range([3, 50]);
+    // Update radius scale dynamically
+    const maxTraffic = d3.max(filteredStations, d => d.totalTraffic) || 1;
+    radiusScale.domain([0, maxTraffic]);  // Ensure domain updates before range
+    radiusScale.range(timeFilter === -1 ? [0, 25] : [3, 50]);
 
-    // Update the scatterplot by adjusting the radius of circles
+    // Update the scatterplot circles
     circles
         .data(filteredStations, d => d.short_name) // Ensure D3 tracks elements correctly
         .join('circle')
-        .attr('r', d => radiusScale(d.totalTraffic)); // Update circle sizes
+        .attr('r', d => radiusScale(d.totalTraffic)) // Update size dynamically
+        .attr('cx', d => getCoords(d).cx) // Ensure correct positioning
+        .attr('cy', d => getCoords(d).cy);
 }
