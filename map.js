@@ -1,5 +1,6 @@
 // Set your Mapbox access token here
 mapboxgl.accessToken = 'pk.eyJ1IjoidGx3YyIsImEiOiJjbTc4b3o4d2gxZG5vMmtwdjkwZWI0OGdkIn0.a4s22vqdgYwi1S55ntLXqQ';
+let timeFilter = -1; // Default: No filtering
 
 // Initialize the map
 const map = new mapboxgl.Map({
@@ -145,8 +146,6 @@ map.on('load', () => {
     const selectedTime = document.getElementById("selected-time");
     const anyTimeLabel = document.getElementById("any-time");
 
-    let timeFilter = -1; // Default: No filtering
-
     // Helper function to format time
     function formatTime(minutes) {
         const date = new Date(0, 0, 0, 0, minutes); // Set hours & minutes
@@ -165,6 +164,7 @@ map.on('load', () => {
             anyTimeLabel.style.display = "none";
         }
     
+        console.log("Updating scatter plot for timeFilter:", timeFilter); // Debugging log
         updateScatterPlot(timeFilter);
     }
 
