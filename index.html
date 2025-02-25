@@ -6,23 +6,34 @@
     <title>Bikewatching</title>
     <link rel="stylesheet" href="global.css">
     <link rel="stylesheet" href="map.css">
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 </head>
 <body>
     <header>
-        <h1>Bikewatching</h1>
+        <h1>🚴🏼‍♀️ Bikewatching</h1>
         <label for="time-slider">
             Filter by time:
-            <input type="range" id="time-slider" min="-1" max="1440" value="-1">
-            <time id="selected-time">any time</time>
+            <input type="range" id="time-slider" min="-1" max="1440" value="-1" step="1">
         </label>
     </header>
-        <div id="map">
-            <svg></svg>
-        </div>
+    
+    <em id="any-time">(any time)</em>
+    <time id="selected-time">11:59 PM</time>
+
+    <div id="map">
+        <svg></svg>
+    </div>
+
+    <div class="legend">
+        <div style="--departure-ratio: 1">More departures</div>
+        <div style="--departure-ratio: 0.5">Balanced</div>
+        <div style="--departure-ratio: 0">More arrivals</div>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
     <script src="map.js"></script>
+    
 </body>
 </html>
